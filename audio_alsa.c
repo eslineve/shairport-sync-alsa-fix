@@ -445,7 +445,11 @@ static int actual_open_alsa_device(int do_auto_setup) {
              alsa_out_dev);
       debug(2, "the alsa output_device \"%s\" is busy.", alsa_out_dev);
     } else if (ret == -ENOENT) {
-      die("the alsa output_device \"%s\" can not be found.", alsa_out_dev);
+      warn("the alsa output_device \"%s\" can not be found.", alsa_out_dev);
+      debug(2, "the alsa output_device \"%s\" can not be found.", alsa_out_dev);
+    } else if (ret == -13) {
+      warn("the alsa output_device \"%s\" can not be opened (Permission Denied)", alsa_out_dev);
+      debug(2, "the alsa output_device \"%s\" can not be opened (Permission Denied)", alsa_out_dev);
     } else {
       char errorstring[1024];
       strerror_r(-ret, (char *)errorstring, sizeof(errorstring));
